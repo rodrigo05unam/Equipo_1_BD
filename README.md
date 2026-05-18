@@ -2,6 +2,7 @@
 Proyecto Final
 
 Integrantes:
+---------------
 Aguilar Lara Ericka 
 Bautista Reyes Sofia 
 Bermejo Flores Jose Tristán 
