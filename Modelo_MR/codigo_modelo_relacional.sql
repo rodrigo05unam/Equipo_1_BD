@@ -7,33 +7,33 @@ CREATE TABLE empleado (
     rfc          VARCHAR2(13) UNIQUE NOT NULL,
     nombre       VARCHAR2(40) NOT NULL,
     ap_pat       VARCHAR2(40) NOT NULL,
-    ap_mat       VARCHAR2(40);
-    calle        VARCHAR2(50);
+    ap_mat       VARCHAR2(40),
+    calle        VARCHAR2(50),
     numero       VARCHAR2(30),
     cp           VARCHAR2(5),
     colonia      VARCHAR2(50),
-    estado       VARCHAR(40),
+    estado       VARCHAR2(40),
     fecha_nac    DATE,
-    sueldo       NUMBER(10, 2),
+    sueldo       NUMBER(10,2),
     foto         BLOB,
     CONSTRAINT empleado_pk PRIMARY KEY ( num_empleado )
 );
 
-CREATE TABLE clientes (
+CREATE TABLE cliente (
     id_cliente   NUMBER NOT NULL,
-    rfc          VARCHAR2(13), UNIQUE NOT NULL
+    rfc          VARCHAR2(13) UNIQUE NOT NULL,
     razon_social VARCHAR2(150),
     nombre       VARCHAR2(100) NOT NULL,
     ap_pat       VARCHAR2(40) NOT NULL,
-    ap_mat       VARCHAR2(40);
+    ap_mat       VARCHAR2(40),
     fecha_nac    DATE,
-    calle        VARCHAR2(50);
+    calle        VARCHAR2(50),
     numero       VARCHAR2(30),
     cp           VARCHAR2(5),
     colonia      VARCHAR2(50),
-    estado       VARCHAR(40),
+    estado       VARCHAR2(40),
     email        VARCHAR2(100),
-    CONSTRAINT clientes_pk PRIMARY KEY ( id_cliente )
+    CONSTRAINT cliente_pk PRIMARY KEY ( id_cliente )
 );
 
 CREATE TABLE categoria (
@@ -87,7 +87,7 @@ CREATE TABLE cocinero (
         REFERENCES empleado ( num_empleado )
 );
 
-CREATE TABLE administrativos (
+CREATE TABLE administrativo (
     num_empleado NUMBER NOT NULL,
     rol          VARCHAR2(50),
     CONSTRAINT admin_pk PRIMARY KEY ( num_empleado ),
@@ -107,23 +107,23 @@ CREATE TABLE producto (
     receta         VARCHAR2(1000),
     precio         NUMBER(10, 2) NOT NULL,
     disponibilidad NUMBER(1), -- Puede ser 1/0 para Booleano en Oracle
-    CONSTRAINT consumible_pk PRIMARY KEY ( id_producto ),
-    CONSTRAINT cons_cat_fk FOREIGN KEY ( id_categoria )
+    CONSTRAINT producto_pk PRIMARY KEY ( id_producto ),
+    CONSTRAINT pro_cat_fk FOREIGN KEY ( id_categoria )
         REFERENCES categoria ( id_categoria )
 );
 
 CREATE TABLE platillo (
     id_producto NUMBER NOT NULL,
     CONSTRAINT platillo_pk PRIMARY KEY ( id_producto ),
-    CONSTRAINT platillo_cons_fk FOREIGN KEY ( id_producto )
-        REFERENCES consumible ( id_producto )
+    CONSTRAINT platillo_pro_fk FOREIGN KEY ( id_producto )
+        REFERENCES producto ( id_producto )
 );
 
 CREATE TABLE bebida (
-    id_consumible NUMBER NOT NULL,
+    id_producto NUMBER NOT NULL,
     CONSTRAINT bebida_pk PRIMARY KEY ( id_producto ),
-    CONSTRAINT bebida_cons_fk FOREIGN KEY ( id_producto )
-        REFERENCES consumible ( id_producto )
+    CONSTRAINT bebida_pro_fk FOREIGN KEY ( id_producto )
+        REFERENCES producto ( id_producto )
 );
 
 -- ==========================================
@@ -137,7 +137,7 @@ CREATE TABLE orden (
     fecha_hora          TIMESTAMP NOT NULL,
     CONSTRAINT orden_pk PRIMARY KEY ( folio ),
     CONSTRAINT orden_cliente_fk FOREIGN KEY ( id_cliente )
-        REFERENCES clientes ( id_cliente ),
+        REFERENCES cliente ( id_cliente ),
     CONSTRAINT orden_mesero_fk FOREIGN KEY ( num_empleado_mesero )
         REFERENCES mesero ( num_empleado )
 );
@@ -146,10 +146,10 @@ CREATE TABLE paga(
     folio NUMBER NOT NULL,
     id_cliente NUMBER NOT NULL,
     porcentaje_pago NUMBER (10,2),
-    CONTRAINT paga_pk PRIMARY KEY (folio, id_cliente)
+    CONSTRAINT paga_pk PRIMARY KEY (folio, id_cliente),
     CONSTRAINT paga_orden_fk FOREIGN KEY (folio)
         REFERENCES orden (folio),
-    CONSTRAINT paga_cliente_fk FOREIGN KEY (id_cliente),
+    CONSTRAINT paga_cliente_fk FOREIGN KEY (id_cliente)
         REFERENCES cliente (id_cliente)
 );
 
