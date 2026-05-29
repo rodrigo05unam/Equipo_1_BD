@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "ep-small-resonance-apwnxe15-pooler.c-7.us-east-1.aws.neon.tech",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "BD Restaurante",
+            "database": "neondb",
+            "username": "neondb_owner",
+            "password": "npg_Eon2g0CbYQpX"
+        }
+    ]
+}
