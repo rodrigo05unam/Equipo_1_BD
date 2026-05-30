@@ -1,3 +1,4 @@
+
 /* ============================================================
    Los Normalizados
    Sistema de gestión para restaurante
@@ -19,18 +20,19 @@ DROP TABLE IF EXISTS factura CASCADE;
 DROP TABLE IF EXISTS pago CASCADE;
 DROP TABLE IF EXISTS detalle_orden CASCADE;
 DROP TABLE IF EXISTS orden CASCADE;
---DROP TABLE IF EXISTS bebida CASCADE;
---DROP TABLE IF EXISTS platillo CASCADE;
 DROP TABLE IF EXISTS producto CASCADE;
 DROP TABLE IF EXISTS categoria CASCADE;
 DROP TABLE IF EXISTS telefono_empleado CASCADE;
 DROP TABLE IF EXISTS dependiente CASCADE;
 DROP TABLE IF EXISTS administrativo CASCADE;
 DROP TABLE IF EXISTS cocinero CASCADE;
-DROP TABLE IF EXISTS mesero CASCADE;
 DROP TABLE IF EXISTS horario_mesero CASCADE;
-DROP TABLE IF EXISTS empleado CASCADE;
+DROP TABLE IF EXISTS mesero CASCADE;
+DROP TABLE IF EXISTS persona_fisica CASCADE; -- ¡NUEVO!
+DROP TABLE IF EXISTS persona_moral CASCADE;  -- ¡NUEVO!
 DROP TABLE IF EXISTS cliente CASCADE;
+DROP TABLE IF EXISTS empleado CASCADE;
+
 
 -- ENTIDAD: EMPLEADO
 
