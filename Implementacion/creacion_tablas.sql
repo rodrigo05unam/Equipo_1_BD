@@ -95,6 +95,28 @@ CREATE TABLE mesero (
         ON DELETE CASCADE
 );
 
+
+-- ENTIDAD_DEBIL DE: MESERO
+
+CREATE TABLE horario_mesero (
+    num_empleado INTEGER NOT NULL,
+    dia_semana VARCHAR(10) NOT NULL,
+    hora_entrada TIME NOT NULL,
+    hora_salida TIME NOT NULL,
+
+    CONSTRAINT pk_horario_mesero 
+        PRIMARY KEY (num_empleado, dia_semana),
+        
+    CONSTRAINT fk_horario_mesero_mesero 
+        FOREIGN KEY (num_empleado) 
+        REFERENCES mesero(num_empleado)
+        ON UPDATE CASCADE 
+        ON DELETE CASCADE,
+        
+    CONSTRAINT chk_dia_semana 
+        CHECK (dia_semana IN ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'))
+);
+
 -- SUBTIPO: COCINERO
 -- Especialización parcial y traslapada
 
