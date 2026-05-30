@@ -71,6 +71,13 @@ AFTER INSERT OR UPDATE OR DELETE
 ON detalle_orden
 FOR EACH ROW EXECUTE FUNCTION fn_actualizar_totalOrden();
 
+/* 
+    Esta función calcula el rendimiento de ventas dentro de un rango de fechas.
+    Si no se manda fecha_fin_p, se toma la misma fecha de inicio.
+    COUNT(o.folio) cuenta el total de órdenes y COALESCE evita que SUM regrese NULL,
+    mostrando 0.00 cuando no hay ventas en ese periodo.
+*/
+
 CREATE OR REPLACE FUNCTION rendimiento_ventas(fecha_inicio_p TIMESTAMP, fecha_fin_p TIMESTAMP)
 RETURNS TABLE (
     total_ventas INTEGER,
@@ -90,7 +97,7 @@ BEGIN
 END;
 LANGUAGE plpgsql;
 
---  Funcion 1: calcula el total de ordenes y el monto total
+--  Funcion que calcula el total de ordenes y el monto total
 
 CREATE OR REPLACE FUNCTION rendimiento_mesero(p_num_empleado INTEGER)
 RETURNS TABLE (
@@ -122,4 +129,3 @@ BEGIN
     AND o.fecha::DATE = CURRENT_DATE; -- Solo se consideran las órdenes del día actual
 END;
 $$ LANGUAGE plpgsql;
-
