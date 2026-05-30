@@ -56,15 +56,70 @@ INSERT INTO telefono_empleado (num_empleado, telefono) VALUES
    algunos se repiten para mostrar traslape.
    ============================================================ */
 
-INSERT INTO mesero (num_empleado, horario) VALUES
-(1, 'Lunes a viernes 09:00-17:00'),
-(2, 'Lunes a viernes 12:00-20:00'),
-(3, 'Martes a sábado 13:00-21:00'),
-(4, 'Miércoles a domingo 14:00-22:00'),
-(5, 'Fines de semana 10:00-18:00'),
-(6, 'Lunes a sábado 11:00-19:00'),
-(7, 'Medio tiempo 16:00-22:00'),
-(21,'Turno especial 18:00-23:00');
+1. Registro de los meseros
+INSERT INTO mesero (num_empleado) VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(21);
+
+-- 2. Asignación de horarios estructurados
+INSERT INTO horario_mesero (num_empleado, dia_semana, hora_entrada, hora_salida) VALUES
+-- Mesero 1: Lunes a viernes 09:00-17:00
+(1, 'Lunes',     '09:00:00', '17:00:00'),
+(1, 'Martes',    '09:00:00', '17:00:00'),
+(1, 'Miércoles', '09:00:00', '17:00:00'),
+(1, 'Jueves',    '09:00:00', '17:00:00'),
+(1, 'Viernes',   '09:00:00', '17:00:00'),
+
+-- Mesero 2: Lunes a viernes 12:00-20:00
+(2, 'Lunes',     '12:00:00', '20:00:00'),
+(2, 'Martes',    '12:00:00', '20:00:00'),
+(2, 'Miércoles', '12:00:00', '20:00:00'),
+(2, 'Jueves',    '12:00:00', '20:00:00'),
+(2, 'Viernes',   '12:00:00', '20:00:00'),
+
+-- Mesero 3: Martes a sábado 13:00-21:00
+(3, 'Martes',    '13:00:00', '21:00:00'),
+(3, 'Miércoles', '13:00:00', '21:00:00'),
+(3, 'Jueves',    '13:00:00', '21:00:00'),
+(3, 'Viernes',   '13:00:00', '21:00:00'),
+(3, 'Sábado',    '13:00:00', '21:00:00'),
+
+-- Mesero 4: Miércoles a domingo 14:00-22:00
+(4, 'Miércoles', '14:00:00', '22:00:00'),
+(4, 'Jueves',    '14:00:00', '22:00:00'),
+(4, 'Viernes',   '14:00:00', '22:00:00'),
+(4, 'Sábado',    '14:00:00', '22:00:00'),
+(4, 'Domingo',   '14:00:00', '22:00:00'),
+
+-- Mesero 5: Fines de semana 10:00-18:00
+(5, 'Sábado',    '10:00:00', '18:00:00'),
+(5, 'Domingo',   '10:00:00', '18:00:00'),
+
+-- Mesero 6: Lunes a sábado 11:00-19:00
+(6, 'Lunes',     '11:00:00', '19:00:00'),
+(6, 'Martes',    '11:00:00', '19:00:00'),
+(6, 'Miércoles', '11:00:00', '19:00:00'),
+(6, 'Jueves',    '11:00:00', '19:00:00'),
+(6, 'Viernes',   '11:00:00', '19:00:00'),
+(6, 'Sábado',    '11:00:00', '19:00:00'),
+
+-- Mesero 7: Medio tiempo 16:00-22:00 (Asumido L-V)
+(7, 'Lunes',     '16:00:00', '22:00:00'),
+(7, 'Martes',    '16:00:00', '22:00:00'),
+(7, 'Miércoles', '16:00:00', '22:00:00'),
+(7, 'Jueves',    '16:00:00', '22:00:00'),
+(7, 'Viernes',   '16:00:00', '22:00:00'),
+
+-- Mesero 21: Turno especial 18:00-23:00 (Asumido fines de semana)
+(21, 'Viernes',  '18:00:00', '23:00:00'),
+(21, 'Sábado',   '18:00:00', '23:00:00'),
+(21, 'Domingo',  '18:00:00', '23:00:00');
 
 INSERT INTO cocinero (num_empleado, especialidad) VALUES
 (8,  'Pastas Alfredo'),

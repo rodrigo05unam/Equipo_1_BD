@@ -28,6 +28,7 @@ DROP TABLE IF EXISTS dependiente CASCADE;
 DROP TABLE IF EXISTS administrativo CASCADE;
 DROP TABLE IF EXISTS cocinero CASCADE;
 DROP TABLE IF EXISTS mesero CASCADE;
+DROP TABLE IF EXISTS horario_mesero CASCADE;
 DROP TABLE IF EXISTS empleado CASCADE;
 DROP TABLE IF EXISTS cliente CASCADE;
 
@@ -80,7 +81,6 @@ CREATE TABLE telefono_empleado (
 
 -- SUBTIPO: MESERO
 -- Especialización parcial y traslapada
-
 CREATE TABLE mesero (
     num_empleado INTEGER NOT NULL,
 
