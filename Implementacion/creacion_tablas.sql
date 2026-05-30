@@ -40,7 +40,7 @@ CREATE TABLE empleado (
     ap_mat VARCHAR(20) NULL,--Opcional
     edad INTEGER NOT NULL,
     rfc VARCHAR(13) NOT NULL,
-    calle VARCHAR(7) NOT NULL,
+    calle VARCHAR(80) NOT NULL,
     numero VARCHAR(10) NOT NULL,
     colonia VARCHAR(80) NOT NULL,
     cp VARCHAR(10) NOT NULL,
@@ -83,7 +83,6 @@ CREATE TABLE telefono_empleado (
 
 CREATE TABLE mesero (
     num_empleado INTEGER NOT NULL,
-    horario VARCHAR(80) NOT NULL,
 
     CONSTRAINT pk_mesero
         PRIMARY KEY (num_empleado),
@@ -93,6 +92,31 @@ CREATE TABLE mesero (
         REFERENCES empleado(num_empleado)
         ON UPDATE CASCADE
         ON DELETE CASCADE
+);
+
+CREATE TABLE horario_mesero (
+    num_empleado INTEGER NOT NULL,
+    dia_semana VARCHAR(10) NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fin TIME NOT NULL,
+
+    CONSTRAINT pk_horario_mesero
+        PRIMARY KEY (num_empleado, dia_semana),
+
+    CONSTRAINT fk_horario_mesero_mesero
+        FOREIGN KEY (num_empleado)
+        REFERENCES mesero(num_empleado)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT chk_horario_dia
+        CHECK (dia_semana IN (
+            'Lunes', 'Martes', 'Miércoles', 'Jueves',
+            'Viernes', 'Sábado', 'Domingo'
+        )),
+
+    CONSTRAINT chk_horario_horas
+        CHECK (hora_inicio < hora_fin)
 );
 
 -- SUBTIPO: COCINERO
@@ -154,26 +178,55 @@ CREATE TABLE dependiente (
 -- ENTIDAD: CLIENTE
 
 CREATE TABLE cliente (
-    id_cliente INTEGER,
-    nombre VARCHAR(60) NOT NULL,
-    ap_pat VARCHAR(20) NOT NULL,
-    ap_mat VARCHAR(20) NULL,--opcional
+    id_cliente INTEGER NOT NULL,
     rfc VARCHAR(13) NOT NULL,
-    razon_social VARCHAR(130) NOT NULL,
-    fecha_nac DATE NOT NULL,
     email VARCHAR(120) NOT NULL,
     calle VARCHAR(80) NOT NULL,
-    numero VARCHAR(7) NOT NULL,
+    numero VARCHAR(10) NOT NULL,
     colonia VARCHAR(80) NOT NULL,
     cp VARCHAR(10) NOT NULL,
     estado VARCHAR(60) NOT NULL,
+    tipo_cliente VARCHAR(10) NOT NULL,
 
     CONSTRAINT pk_cliente
         PRIMARY KEY (id_cliente),
 
     CONSTRAINT uq_cliente_rfc
-        UNIQUE (rfc)
+        UNIQUE (rfc),
 
+    CONSTRAINT chk_cliente_tipo
+        CHECK (tipo_cliente IN ('FISICA', 'MORAL')),
+);
+
+CREATE TABLE persona_fisica (
+    id_cliente INTEGER NOT NULL,
+    nombre VARCHAR(60) NOT NULL,
+    ap_pat VARCHAR(20) NOT NULL,
+    ap_mat VARCHAR(20) NULL,
+    fecha_nac DATE NOT NULL,
+
+    CONSTRAINT pk_persona_fisica
+        PRIMARY KEY (id_cliente),
+
+    CONSTRAINT fk_persona_fisica_cliente
+        FOREIGN KEY (id_cliente)
+        REFERENCES cliente(id_cliente)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+CREATE TABLE persona_moral (
+    id_cliente INTEGER NOT NULL,
+    razon_social VARCHAR(250) NOT NULL,
+
+    CONSTRAINT pk_persona_moral
+        PRIMARY KEY (id_cliente),
+
+    CONSTRAINT fk_persona_moral_cliente
+        FOREIGN KEY (id_cliente)
+        REFERENCES cliente(id_cliente)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- ENTIDAD: CATEGORIA
@@ -196,9 +249,9 @@ CREATE TABLE categoria (
 CREATE TABLE producto (  
     id_producto INTEGER,
     id_categoria INTEGER NOT NULL,
-    nombre VARCHAR(80) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
     descripcion VARCHAR(250) NOT NULL,
-    receta VARCHAR(250) NULL, --opcional
+    receta VARCHAR(500) NULL, --opcional
     precio NUMERIC(10,2) NOT NULL,
     disponibilidad BOOLEAN NOT NULL DEFAULT TRUE,
     tipo_producto VARCHAR(10) NOT NULL,
@@ -314,7 +367,7 @@ CREATE TABLE factura (
         PRIMARY KEY (id_factura),
 
     CONSTRAINT uq_factura_orden_cliente
-        UNIQUE (folio, id_cliente), --Evita facturas duplicadas para el mismo pago.
+        UNIQUE (folio, id_cliente), --Evita más de una factura para el mismo pago.
 
     CONSTRAINT fk_factura_pago
         FOREIGN KEY (folio, id_cliente)
