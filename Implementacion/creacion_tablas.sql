@@ -158,7 +158,9 @@ CREATE TABLE administrativo (
 CREATE TABLE dependiente (
     num_empleado INTEGER NOT NULL,
     id_dependiente INTEGER NOT NULL,
-    nombre VARCHAR(80) NOT NULL,
+    nombre VARCHAR(60) NOT NULL,
+    ap_pat VARCHAR(20) NOT NULL,
+    ap_mat VARCHAR(20) NULL,--Opcional
     parentesco VARCHAR(50) NOT NULL,
     curp VARCHAR(18) NOT NULL,
 
