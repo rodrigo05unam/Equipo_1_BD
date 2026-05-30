@@ -32,6 +32,7 @@ CREATE TABLE empleado (
     nombre VARCHAR(60) NOT NULL,
     ap_pat VARCHAR(20) NOT NULL,
     ap_mat VARCHAR(20) NULL,--Opcional
+    edad INTEGER NOT NULL,
     rfc VARCHAR(13) NOT NULL,
     calle VARCHAR(7) NOT NULL,
     numero VARCHAR(10) NOT NULL,
