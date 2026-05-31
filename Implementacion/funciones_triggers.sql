@@ -7,7 +7,7 @@
 */
 
 -- Aquí se valida la disponibilidad y se calcula el subtotal del producto
-CREATE OR REPLACE FUNCTION fn_calcular_subtotal()
+CREATE FUNCTION fn_calcular_subtotal()
 RETURNS TRIGGER AS $$
 DECLARE
     precio_prod NUMERIC(10,2);
@@ -34,7 +34,7 @@ $$ LANGUAGE plpgsql;
 
 
 --Acá se actualiza el total de la orden
-CREATE OR REPLACE FUNCTION fn_actualizar_totalOrden()
+CREATE FUNCTION fn_actualizar_totalOrden()
 RETURNS TRIGGER AS $$
 DECLARE
     v_folio VARCHAR(10); --Acá se guarda el folio de la orden que debe actualizarse
@@ -78,7 +78,7 @@ FOR EACH ROW EXECUTE FUNCTION fn_actualizar_totalOrden();
     mostrando 0.00 cuando no hay ventas en ese periodo.
 */
 
-CREATE OR REPLACE FUNCTION rendimiento_ventas(fecha_inicio_p TIMESTAMP, fecha_fin_p TIMESTAMP)
+CREATE FUNCTION rendimiento_ventas(fecha_inicio_p TIMESTAMP, fecha_fin_p TIMESTAMP DEFAULT NULL)
 RETURNS TABLE (
     total_ventas INTEGER,
     monto_total NUMERIC(10,2)
@@ -93,13 +93,12 @@ BEGIN
         COUNT(o.folio)::INTEGER,
         COALESCE(SUM(o.total_pagar), 0.00)::NUMERIC(10,2)
     FROM orden o
-    WHERE o.fecha BETWEEN fecha_inicio_p AND fecha_fin_p;
+    WHERE o.fecha BETWEEN fecha_inicio_p::DATE AND fecha_fin_p::DATE;
 END;
-LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql;
 --  Funcion que calcula el total de ordenes y el monto total
 
-CREATE OR REPLACE FUNCTION rendimiento_mesero(p_num_empleado INTEGER)
+CREATE FUNCTION rendimiento_mesero(p_num_empleado INTEGER)
 RETURNS TABLE (
     total_ordenes INTEGER,
     monto_total NUMERIC(10,2)
