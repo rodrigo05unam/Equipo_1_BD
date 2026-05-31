@@ -166,6 +166,15 @@ FROM rendimiento_ventas(
 SELECT *
 FROM rendimiento_mesero(1, '2025-01-15');
 
+/* ============================================================
+   12) PROBAR FUNCIÓN: RENDIMIENTO DE MESERO si no hay mesero
+   ============================================================ */
+
+BEGIN;
+SELECT *
+FROM rendimiento_mesero(8, '2025-01-15');
+ROLLBACK;
+
 
 /* ============================================================
    13) VERIFICAR ÍNDICE
