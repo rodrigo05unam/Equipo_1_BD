@@ -157,7 +157,7 @@ FOR EACH ROW EXECUTE FUNCTION fn_actualizar_totalOrden();
    los triggers fn_calcular_subtotal() y fn_actualizar_totalOrden()
    ============================================================ */
 
-CREATE OR REPLACE PROCEDURE sp_agregar_producto_orden(
+CREATE PROCEDURE sp_agregar_producto_orden(
     p_folio VARCHAR(10),
     p_id_producto INTEGER,
     p_cant_prod INTEGER
